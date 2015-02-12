@@ -3386,7 +3386,6 @@ static int netif_rx_internal(struct sk_buff *skb)
  *	NET_RX_DROP     (packet was dropped)
  *
  */
-
 int netif_rx(struct sk_buff *skb)
 {
 	trace_netif_rx_entry(skb);
@@ -3395,6 +3394,14 @@ int netif_rx(struct sk_buff *skb)
 }
 EXPORT_SYMBOL(netif_rx);
 
+/**
+ * netif_rx_ni  -   post buffer to network code in non-interrupt mode
+ * @skb: buffer to post
+ *
+ * This function receives a packet from a driver running in non-interrupt
+ * (i.e. process) context. To avoid waiting for the NET_RX_SOFTIRQ to handle
+ * the packet, do_softirq() is called immediately, if required.
+ */
 int netif_rx_ni(struct sk_buff *skb)
 {
 	int err;
